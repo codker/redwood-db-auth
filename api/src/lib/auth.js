@@ -6,7 +6,6 @@ import { AuthenticationError } from '@redwoodjs/api'
 
 import {
   findUserByEmail,
-  hashPassword,
   updatePassword,
   verifyPassword,
 } from 'src/services/users/users'
@@ -20,10 +19,7 @@ export const authenticateUser = async (email, password) => {
     case SecurePassword.VALID:
       break
     case SecurePassword.VALID_NEEDS_REHASH:
-      // eslint-disable-next-line no-case-declarations
-      const hashedPassword = await hashPassword(password)
-
-      updatePassword(user.id, hashedPassword)
+      updatePassword(user.id, password)
       break
     default:
       throw new AuthenticationError()
